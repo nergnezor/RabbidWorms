@@ -17,8 +17,8 @@ jobs:
     env:
       itch_game: RabbidWorms
     steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@main
+      - uses: subosito/flutter-action@main
         with:
           channel: 'main'
       - run: flutter pub get
