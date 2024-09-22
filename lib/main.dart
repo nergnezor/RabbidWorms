@@ -8,6 +8,9 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'boundaries.dart';
+import 'worm.dart';
+
 void main() {
   runApp(const GameWidget.controlled(gameFactory: MouseJointExample.new));
 }
@@ -26,16 +29,10 @@ class MouseJointWorld extends Forge2DWorld
   PositionComponent camera = PositionComponent();
   TextComponent lifeText =
       TextComponent(text: "100", position: Vector2(30, 20));
-  TextComponent debugText =
-      TextComponent(text: "debug", position: Vector2(0, 40));
-
-  static const double gameSize = 18;
-  static double timeFactor = 1;
 
   @override
   Future<void> onLoad() async {
-    game.camera.viewfinder.visibleGameSize = Vector2.all(gameSize);
-    super.onLoad();
+    // game.camera.viewfinder.visibleGameSize = Vector2.all(gameSize);
     game.camera.viewport.add(FpsTextComponent());
     game.camera.viewport.add(lifeText);
 
@@ -46,6 +43,12 @@ class MouseJointWorld extends Forge2DWorld
       // FlameAudio.bgm.play('megalergik.mp3');
       playingMusic = true;
     }
+
+    // Add boundaries
+    addAll(createBoundaries(game));
+
+    game.add(Worm(Vector2(game.size.x / 2, 0)));
+    super.onLoad();
   }
 
   @override
@@ -66,10 +69,11 @@ class MouseJointWorld extends Forge2DWorld
     // Draw background gradient
     shader
       ..setFloat(0, time)
-      ..setFloat(1, game.size.x * 0.02)
-      ..setFloat(2, game.size.y * 0.02);
+      ..setFloat(1, game.camera.visibleWorldRect.width)
+      ..setFloat(2, game.camera.visibleWorldRect.height);
     // final canvasRect = canvas.getLocalClipBounds();
-    final canvasRect = Rect.fromLTWH(0, 0, game.size.x, game.size.y);
+    // final canvasRect = Rect.fromLTWH(0, 0, game.size.x, game.size.y);
+    final canvasRect = game.camera.visibleWorldRect;
     canvas.drawRect(canvasRect, Paint()..shader = shader);
     super.render(canvas);
   }
@@ -77,7 +81,6 @@ class MouseJointWorld extends Forge2DWorld
   @override
   void update(double dt) {
     time += dt;
-    debugText.text = game.world.children.length.toString();
     super.update(dt);
   }
 }
