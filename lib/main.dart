@@ -65,9 +65,9 @@ class MouseJointWorld extends Forge2DWorld
   void render(Canvas canvas) {
     // Draw background gradient
     shader
-      ..setFloat(0, time * 0.1)
-      ..setFloat(1, game.size.x)
-      ..setFloat(2, game.size.y);
+      ..setFloat(0, time)
+      ..setFloat(1, game.size.x * 0.02)
+      ..setFloat(2, game.size.y * 0.02);
     // final canvasRect = canvas.getLocalClipBounds();
     final canvasRect = Rect.fromLTWH(0, 0, game.size.x, game.size.y);
     canvas.drawRect(canvasRect, Paint()..shader = shader);

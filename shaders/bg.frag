@@ -5,17 +5,21 @@ uniform float iTime;
 uniform vec2 iResolution;
 out vec4 fragColor;
 
+const float PI = 3.14159265359;
+
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
   float x = fragCoord.x / iResolution.x;
   float y = fragCoord.y / iResolution.y;
+
   float r = 0.0;
   float g = 0.0;
   float b = 0.0;
   float a = 1.0;
-  float c = 0.0;
 
-  if (x < 0.5)
+  float offset = 0.5 * sin(iTime * PI);
+
+  if (x > 0.5 + offset)
   {
     r = 1.0;
   }
