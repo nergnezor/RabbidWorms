@@ -5,7 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 
 class Worm extends BodyComponent with ContactCallbacks {
   static const double wormRadius = 100.5;
-  static const double wormDensity = 1.0;
+  static const double wormDensity = 10.0;
   static const double wormFriction = 0.2;
   static const double wormRestitution = 0.2;
 
@@ -45,14 +45,17 @@ class Worm extends BodyComponent with ContactCallbacks {
   @override
   void renderCircle(Canvas canvas, Offset position, double radius) {
     super.renderCircle(canvas, position, radius);
-    final paint = Paint()..color = const Color(0xFFFF0000);
+    final paint = Paint()
+      ..color = const Color(0xFFFF0000)
+      ..style = PaintingStyle.stroke;
     // canvas.drawCircle(position, radius, paint);
     const bodyCount = 5;
     for (var i = 0; i < bodyCount; i++) {
+      final r = radius * i / bodyCount;
       final angle = i;
-      final x = position.dx + radius * cos(angle) / (1 + i / 10);
-      final y = position.dy + radius * sin(angle) / (1 + i / 10);
-      canvas.drawCircle(Offset(x, y), radius / i, paint);
+      final x = position.dx + r * cos(angle) / (1 + i / 10);
+      final y = position.dy + r * sin(angle) / (1 + i / 10);
+      canvas.drawCircle(Offset(x, y), r, paint);
     }
   }
 

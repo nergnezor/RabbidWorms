@@ -1,14 +1,14 @@
+import 'dart:ui';
+
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 
 List<Wall> createBoundaries(Forge2DGame game, {double? strokeWidth}) {
-  final visibleRect = game.camera.visibleWorldRect;
-  // final topLeft = visibleRect.topLeft.toVector2();
-  final topLeft = Vector2(visibleRect.left, -100);
-  // final topRight = visibleRect.topRight.toVector2();
-  final topRight = Vector2(visibleRect.right, -100);
-  final bottomRight = visibleRect.bottomRight.toVector2();
-  final bottomLeft = visibleRect.bottomLeft.toVector2();
+  final r = game.size.toRect();
+  final topLeft = r.topLeft.toVector2();
+  final topRight = r.topRight.toVector2();
+  final bottomRight = r.bottomRight.toVector2();
+  final bottomLeft = r.bottomLeft.toVector2();
 
   return [
     Wall(topLeft, topRight, strokeWidth: strokeWidth),
@@ -18,13 +18,13 @@ List<Wall> createBoundaries(Forge2DGame game, {double? strokeWidth}) {
   ];
 }
 
-class Wall extends BodyComponent {
+class Wall extends BodyComponent with ContactCallbacks {
   final Vector2 start;
   final Vector2 end;
   final double strokeWidth;
 
   Wall(this.start, this.end, {double? strokeWidth})
-      : strokeWidth = strokeWidth ?? 0.1;
+      : strokeWidth = strokeWidth ?? 1;
 
   @override
   Body createBody() {

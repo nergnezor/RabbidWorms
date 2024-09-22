@@ -21,7 +21,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
   float offset = w / 2 * sin(iTime * PI);
 
-  if (x > offset && y < -h * 0.4)
+  if (x > offset && y < -40)
   {
     r = 1.0;
   }

@@ -17,7 +17,7 @@ void main() {
 
 class MouseJointExample extends Forge2DGame {
   MouseJointExample()
-      : super(world: MouseJointWorld(), gravity: Vector2(0, 80));
+      : super(world: MouseJointWorld(), gravity: Vector2(0, 10000));
 }
 
 class MouseJointWorld extends Forge2DWorld
@@ -30,8 +30,11 @@ class MouseJointWorld extends Forge2DWorld
   TextComponent lifeText =
       TextComponent(text: "100", position: Vector2(30, 20));
 
+  Worm worm = Worm(Vector2(0, 0));
+
   @override
   Future<void> onLoad() async {
+    super.onLoad();
     // game.camera.viewfinder.visibleGameSize = Vector2.all(gameSize);
     game.camera.viewport.add(FpsTextComponent());
     game.camera.viewport.add(lifeText);
@@ -45,10 +48,12 @@ class MouseJointWorld extends Forge2DWorld
     }
 
     // Add boundaries
-    addAll(createBoundaries(game));
-
-    game.add(Worm(Vector2(game.size.x / 2, 0)));
-    super.onLoad();
+    // addAll(createBoundaries(game));
+    final boundaries = createBoundaries(game);
+    game.addAll(boundaries);
+    worm = Worm(Vector2(game.size.x / 2, 0));
+    game.add(worm);
+    // game.add(Worm(Vector2(game.size.x / 2, 0)));
   }
 
   @override
@@ -66,15 +71,17 @@ class MouseJointWorld extends Forge2DWorld
 
   @override
   void render(Canvas canvas) {
+    final gameSize = game.size;
     // Draw background gradient
     shader
       ..setFloat(0, time)
-      ..setFloat(1, game.camera.visibleWorldRect.width)
-      ..setFloat(2, game.camera.visibleWorldRect.height);
+      ..setFloat(1, gameSize.x)
+      ..setFloat(2, gameSize.y);
     // final canvasRect = canvas.getLocalClipBounds();
     // final canvasRect = Rect.fromLTWH(0, 0, game.size.x, game.size.y);
-    final canvasRect = game.camera.visibleWorldRect;
+    final canvasRect = game.size.toRect();
     canvas.drawRect(canvasRect, Paint()..shader = shader);
+
     super.render(canvas);
   }
 
