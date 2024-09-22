@@ -36,7 +36,8 @@ class MouseJointWorld extends Forge2DWorld
   Future<void> onLoad() async {
     game.camera.viewfinder.visibleGameSize = Vector2.all(gameSize);
     super.onLoad();
-    // game.camera.viewport.add(FpsTextComponent());
+    game.camera.viewport.add(FpsTextComponent());
+    game.camera.viewport.add(lifeText);
 
     program = await FragmentProgram.fromAsset('shaders/bg.frag');
     shader = program.fragmentShader();
@@ -63,12 +64,12 @@ class MouseJointWorld extends Forge2DWorld
   @override
   void render(Canvas canvas) {
     // Draw background gradient
-    canvas.drawColor(Color.fromARGB(255, 40, 24, 60), BlendMode.srcOver);
     shader
       ..setFloat(0, time * 0.1)
-      ..setFloat(1, game.size.x / 300)
-      ..setFloat(2, game.size.y / 300);
-    final canvasRect = canvas.getLocalClipBounds();
+      ..setFloat(1, game.size.x)
+      ..setFloat(2, game.size.y);
+    // final canvasRect = canvas.getLocalClipBounds();
+    final canvasRect = Rect.fromLTWH(0, 0, game.size.x, game.size.y);
     canvas.drawRect(canvasRect, Paint()..shader = shader);
     super.render(canvas);
   }
