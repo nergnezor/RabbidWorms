@@ -1,0 +1,22 @@
+name: sylt11
+description: Using a shader, simply.
+publish_to: 'none'
+version: 1.0.0
+
+environment:
+  sdk: ^3.1.0
+
+dependencies:
+  flame: ^1.10.1
+  flame_forge2d: ^0.18.2
+  # flame_audio: ^2.1.0
+  flutter:
+    sdk: flutter
+  flutter_shaders: ^0.1.0
+flutter:
+  uses-material-design: true
+  shaders:
+    - shaders/bg.frag
+  # assets:
+    # - assets/audio/megalergik.mp3
+  
