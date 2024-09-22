@@ -26,14 +26,14 @@ jobs:
       - run: flutter build web --release --base-href=/${{ env.itch_game }}/ --web-renderer=canvaskit
       
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@main
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@main
         with:
           path: 'build/web'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@main
    
       - name: Remove base tag from index.html
         run: sed -i '/<base href=".*">/d' ./build/web/index.html
